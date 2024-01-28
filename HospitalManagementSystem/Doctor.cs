@@ -10,7 +10,7 @@ namespace HospitalManagementSystem
     {
         public string Specialization { get; set; }
 
-        public Doctor(string firstName, string lastName, DateTime birthDate, int employyeCardNumber, string specialization) : base(firstName,lastName,birthDate,employyeCardNumber)
+        public Doctor(string firstName, string lastName, DateTime birthDate, int employeeCardNumber, string specialization) : base(firstName,lastName,birthDate,employeeCardNumber)
         {
             Specialization = specialization;
         }

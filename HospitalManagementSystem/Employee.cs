@@ -20,7 +20,7 @@ namespace HospitalManagementSystem
             {
                 if (CalculateAge(value) < 18)
                 {
-                    throw new InvalidDataException("Cannot set age to less than 18!");
+                    throw new ArgumentException("Cannot set age to less than 18!");
                 }
 
                 _DateOfBirth = value;
@@ -39,7 +39,7 @@ namespace HospitalManagementSystem
 
         public abstract string GetInformationOfPerson();
 
-        private int CalculateAge(DateTime birthDate)
+        public static int CalculateAge(DateTime birthDate)
         {
             return DateTime.Now.Year - birthDate.Year;
         }

@@ -11,7 +11,7 @@ namespace HospitalManagementSystem
     {
         public string Department { get; set; }
 
-        public Nurse(string firstName, string lastName, DateTime birthDate, int employyeCardNumber, string department) : base(firstName, lastName, birthDate, employyeCardNumber)
+        public Nurse(string firstName, string lastName, DateTime birthDate, int employeeCardNumber, string department) : base(firstName, lastName, birthDate, employeeCardNumber)
         {
             Department = department;
         }
