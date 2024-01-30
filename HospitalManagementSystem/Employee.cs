@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DateTime = System.DateTime;
+﻿using DateTime = System.DateTime;
 
 namespace HospitalManagementSystem
 {
@@ -43,6 +38,8 @@ namespace HospitalManagementSystem
         {
             return DateTime.Now.Year - birthDate.Year;
         }
+
+        public Employee(){}
 
     }
 }

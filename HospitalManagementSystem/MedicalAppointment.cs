@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HospitalManagementSystem
+﻿namespace HospitalManagementSystem
 {
     public class MedicalAppointment
     {
-        private DateTime _ExaminationDate;
+        private DateTime _AppointmentDate;
         private Patient _Patient;
         private Doctor _Doctor;
 
-        public DateTime ExaminationDate
+        public DateTime AppointmentDate
         {
-            get => _ExaminationDate;
+            get => _AppointmentDate;
             set
             {
                 if (value < DateTime.Now)
@@ -22,7 +16,7 @@ namespace HospitalManagementSystem
                     throw new ArgumentException("Invalid date!");
                 }
 
-                _ExaminationDate = value;
+                _AppointmentDate = value;
             }
         }
 
@@ -40,7 +34,7 @@ namespace HospitalManagementSystem
 
         public MedicalAppointment(DateTime appointmentDate, Patient patient, Doctor doctor)
         {
-            ExaminationDate = appointmentDate;
+            AppointmentDate = appointmentDate;
             Patient = patient;
             Doctor = doctor;
         }
