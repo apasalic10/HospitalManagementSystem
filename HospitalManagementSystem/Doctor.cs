@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HospitalManagementSystem
+﻿namespace HospitalManagementSystem
 {
     public class Doctor : Employee
     {
@@ -14,6 +8,8 @@ namespace HospitalManagementSystem
         {
             Specialization = specialization;
         }
+
+        public Doctor(){}
 
         public override string GetInformationOfPerson()
         {
