@@ -13,7 +13,7 @@ namespace HospitalManagementSystem
             get => _DateOfBirth;
             set
             {
-                if (CalculateAge(value) < 18)
+                if (Hospital.CalculateAge(value) < 18)
                 {
                     throw new ArgumentException("Cannot set age to less than 18!");
                 }
@@ -22,6 +22,36 @@ namespace HospitalManagementSystem
             }
         }
 
+        private string _Username;
+        private string _Password;
+
+        public string Username
+        {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                if (!Hospital.IsUsernameUnique(value))
+                {
+                    throw new InvalidDataException("Username already exist!");
+                }
+
+                _Username = value;
+            }
+        }
+        public string Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                _Password = Hospital.HashPassword(value);
+            }
+        }
         public int  EmployeeCardNumber { get; set; }
 
         protected Employee( string firstName, string lastName, DateTime dateOfBirth, int employeeCardNumber)
@@ -33,11 +63,6 @@ namespace HospitalManagementSystem
         }
 
         public abstract string GetInformationOfPerson();
-
-        public static int CalculateAge(DateTime birthDate)
-        {
-            return DateTime.Now.Year - birthDate.Year;
-        }
 
         public Employee(){}
 
