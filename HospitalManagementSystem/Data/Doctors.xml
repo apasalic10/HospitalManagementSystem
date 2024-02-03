@@ -7,11 +7,4 @@
     <EmployeeCardNumber>1</EmployeeCardNumber>
     <Specialization>Hirurg</Specialization>
   </Doctor>
-  <Doctor>
-    <FirstName>Almedin</FirstName>
-    <LastName>Pasalic</LastName>
-    <DateOfBirth>2002-08-31T00:00:00</DateOfBirth>
-    <EmployeeCardNumber>1</EmployeeCardNumber>
-    <Specialization>Kardiolog</Specialization>
-  </Doctor>
 </ArrayOfDoctor>

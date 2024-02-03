@@ -1,4 +1,6 @@
-﻿namespace HospitalManagementSystem
+﻿using System.Xml.Serialization;
+
+namespace HospitalManagementSystem
 {
     public class Patient : IPerson
     {
@@ -12,12 +14,43 @@
             get => _DateOfBirth;
             set
             {
-                if (Employee.CalculateAge(value) < 18)
+                if (Hospital.CalculateAge(value) < 18)
                 {
                     throw new InvalidDataException("Cannot set age to less than 18!");
                 }
 
                 _DateOfBirth = value;
+            }
+        }
+
+        private string _Username;
+        private string _Password;
+
+        public string Username {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                if (!Hospital.IsUsernameUnique(value))
+                {
+                    throw new InvalidDataException("Username already exist!");
+                }
+
+                _Username = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                _Password = Hospital.HashPassword(value);
             }
         }
 
@@ -28,7 +61,9 @@
 
         public string GetInformationOfPerson()
         {
-            throw new NotImplementedException();
+            return "FirstName: " + FirstName + "\n" + "LastName: " + LastName + "\n" + "Date of birth: " + DateOfBirth;
         }
+
+        public Patient(){}
     }
 }
