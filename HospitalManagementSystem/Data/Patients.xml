@@ -1,1 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPatient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Patient>
+    <FirstName>Niko</FirstName>
+    <LastName>Nikic</LastName>
+    <DateOfBirth>2001-10-05T00:00:00</DateOfBirth>
+    <Username>niko123</Username>
+    <Password>niko123</Password>
+  </Patient>
+</ArrayOfPatient>

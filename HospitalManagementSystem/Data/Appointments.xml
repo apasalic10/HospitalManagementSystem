@@ -1,1 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfMedicalAppointment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MedicalAppointment>
+    <AppointmentDate>2024-02-04T22:13:50.9448233+01:00</AppointmentDate>
+    <Patient>
+      <FirstName>Niko</FirstName>
+      <LastName>Nikic</LastName>
+      <DateOfBirth>2001-10-05T00:00:00</DateOfBirth>
+      <Username>niko123</Username>
+      <Password>niko123</Password>
+    </Patient>
+    <Doctor>
+      <FirstName>Almedin</FirstName>
+      <LastName>Pasalic</LastName>
+      <DateOfBirth>2002-08-31T00:00:00</DateOfBirth>
+      <Username>almedin1</Username>
+      <Password>almedin1</Password>
+      <EmployeeCardNumber>1</EmployeeCardNumber>
+      <Specialization>Hirurg</Specialization>
+    </Doctor>
+  </MedicalAppointment>
+</ArrayOfMedicalAppointment>

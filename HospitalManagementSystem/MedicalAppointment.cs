@@ -38,5 +38,11 @@
             Patient = patient;
             Doctor = doctor;
         }
+        public MedicalAppointment() { }
+
+        public void PrintMedicalAppointment()
+        {
+            Console.WriteLine("Appointment date: " + AppointmentDate + "\nPatient: " + Patient.FirstName + " " + Patient.LastName + "\nDoctor: " + Doctor.FirstName + " " + Doctor.LastName);
+        }
     }
 }

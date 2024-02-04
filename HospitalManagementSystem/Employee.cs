@@ -33,11 +33,6 @@ namespace HospitalManagementSystem
             }
             set
             {
-                if (!Hospital.IsUsernameUnique(value))
-                {
-                    throw new InvalidDataException("Username already exist!");
-                }
-
                 _Username = value;
             }
         }
@@ -49,7 +44,7 @@ namespace HospitalManagementSystem
             }
             set
             {
-                _Password = Hospital.HashPassword(value);
+                _Password = value;
             }
         }
         public int  EmployeeCardNumber { get; set; }
