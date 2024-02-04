@@ -26,6 +26,9 @@ Doctors do not have the ability to register but only to log in. Login credential
 ## Technology
 
 This project is built using:
-
-- ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.skypack.dev%2Fview%2F%40programming-languages-logos%2Fcsharp&psig=AOvVaw0tgp3qyz2X39R-T3VCyjMk&ust=1707150744785000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPikrKGOkoQDFQAAAAAdAAAAABAE)https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.skypack.dev%2Fview%2F%40programming-languages-logos%2Fcsharp&psig=AOvVaw0tgp3qyz2X39R-T3VCyjMk&ust=1707150744785000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCPikrKGOkoQDFQAAAAAdAAAAABAE](https://user-images.githubusercontent.com/29086284/42306266-034f1cc6-804c-11e8-9663-2350b8e6292c.png)https://user-images.githubusercontent.com/29086284/42306266-034f1cc6-804c-11e8-9663-2350b8e6292c.png)
-- ![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=.net&logoColor=white)
+<div>
+  <img src="https://github.com/devicons/devicon/blob/master/icons/csharp/csharp-line.svg" title="C#" alt="Visual studio" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/visualstudio/visualstudio-plain.svg" title="Visual studio" alt="Visual studio" width="40" height="40"/>&nbsp;
+  <img src="https://github.com/devicons/devicon/blob/master/icons/dotnetcore/dotnetcore-original.svg" title="Visual studio" alt="Visual studio" width="40" height="40"/>&nbsp;
+  
+</div>
