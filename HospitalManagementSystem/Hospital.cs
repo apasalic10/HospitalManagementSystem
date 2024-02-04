@@ -1,12 +1,14 @@
-﻿using System.Xml.Serialization;
+﻿using System.Globalization;
+using System.Xml.Serialization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Numerics;
 
 namespace HospitalManagementSystem
 {
     public class Hospital
     {
-        private List<Doctor>? doctors = ReturnSaveDoctors();
+        private List<Doctor> doctors = ReturnSaveDoctors();
         private List<Patient>? patients = ReturnSavePatients();
         private List<MedicalAppointment>? appointments = ReturnSaveAppointments();
 
@@ -14,57 +16,58 @@ namespace HospitalManagementSystem
         {
             doctors.Add(doctor);
 
-            UpdateFile("Doctor");
+            UpdateFile("Doctors");
         }
 
         public void RemoveDoctor(Doctor doctor)
         {
             doctors.Remove(doctor);
-            UpdateFile("Doctor");
+            UpdateFile("Doctors");
         }
 
         public void AddPatient(Patient patient)
         {
             patients.Add(patient);
 
-            UpdateFile("Patient");
+            UpdateFile("Patients");
         }
 
         public void RemovePatient(Patient patient)
         {
             patients.Remove(patient);
-            UpdateFile("Patient");
+            UpdateFile("Patients");
         }
 
-        public void ScheduleAppointment(DateTime date, Patient patient, Doctor doctor)
+        public void ScheduleAppointment(DateTime date, Patient patient)
         {
-            appointments.Add(new MedicalAppointment(date,patient,doctor));
+            appointments.Add(new MedicalAppointment(date,patient,doctors[0]));
 
-            UpdateFile("Appointment");
+            UpdateFile("Appointments");
         }
 
         public void CancelAppointment(MedicalAppointment appointment)
         {
             appointments.Remove(appointment);
-            UpdateFile("Appointment");
+            UpdateFile("Appointments");
         }
 
         public List<MedicalAppointment> GetAppointmentsOfPatient(Patient patient)
         {
-            List<MedicalAppointment> patientAppointments = new List<MedicalAppointment>();
-
-            foreach (MedicalAppointment appointment  in appointments)
-            {
-                patientAppointments.Add(appointment);
-            }
-
-            return patientAppointments;
+            return ReturnSaveAppointments()
+                .Where(appointment => appointment.Patient.Username.Equals(patient.Username))
+                .ToList();
         }
 
+        public List<MedicalAppointment> GetAppointmentsOfDoctor(Doctor doctor)
+        {
+            return ReturnSaveAppointments()
+                .Where(appointment => appointment.Doctor.Username.Equals(doctor.Username))
+                .ToList();
+        }
 
         private void UpdateFile(string type)
         {
-            if (type.Equals("Doctor"))
+            if (type.Equals("Doctors"))
             {
                 string relativePath = "../../../Data/" + type + ".xml";
 
@@ -75,7 +78,7 @@ namespace HospitalManagementSystem
                     serializer.Serialize(stream, doctors);
                 }
             }
-            else if (type.Equals("Patient"))
+            else if (type.Equals("Patients"))
             {
                 string relativePath = "../../../Data/" + type + ".xml";
 
@@ -86,7 +89,7 @@ namespace HospitalManagementSystem
                     serializer.Serialize(stream, patients);
                 }
             }
-            else
+            else if(type.Equals("Appointments"))
             {
                 string relativePath = "../../../Data/" + type + ".xml";
 
@@ -99,26 +102,18 @@ namespace HospitalManagementSystem
             }
         }
 
-        public List<Prescription>? GetPrescriptionsOfPatient(Patient patient)
-        {
-            List<Prescription>? prescriptionList = new List<Prescription>();
-
-            string relativePath = "../../../Data/Prescriptions.xml";
-
-            using (FileStream stream = File.OpenWrite(relativePath))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Prescription>));
-
-                prescriptionList = (List<Prescription>)(serializer.Deserialize(stream))!;
-            }
-
-            return prescriptionList;
-        }
-
-        public Patient? GetPatient(Predicate<Patient> patient)
+        public Patient? GetPatientByName(string firstName, string lastName)
         {
             var patients = ReturnSavePatients();
-            return patients.Find(patient);
+            foreach (var patient in patients)
+            {
+                if (patient.FirstName.Equals(firstName) && patient.LastName.Equals(lastName))
+                {
+                    return patient;
+                }
+            }
+
+            return null;
         }
 
         public List<Patient> GetPatients()
@@ -126,7 +121,7 @@ namespace HospitalManagementSystem
             return ReturnSavePatients();
         }
 
-        public List<Doctor> GetADoctors()
+        public List<Doctor> GetDoctors()
         {
             return ReturnSaveDoctors();
         }
@@ -137,34 +132,9 @@ namespace HospitalManagementSystem
             return doctors.Find(doctor);
         }
 
-        public static bool IsUsernameUnique(string username)
-        {
-            var patientList = ReturnSavePatients();
-
-            foreach (var patient in patientList)
-            {
-                if (patient.Username.Equals(username))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public static int CalculateAge(DateTime birthDate)
         {
             return DateTime.Now.Year - birthDate.Year;
-        }
-
-        public static string HashPassword(string password)
-        {
-            var sha = SHA256.Create();
-
-            var asByteArray = Encoding.Default.GetBytes(password);
-            var hashedPassword = sha.ComputeHash(asByteArray);
-
-            return Convert.ToBase64String(hashedPassword);
         }
 
         public Patient? LogInPatient(string username, string password)
@@ -173,7 +143,7 @@ namespace HospitalManagementSystem
 
             foreach (var patient in patientList)
             {
-                if (patient.Username.Equals(username) && patient.Password.Equals(password))
+                if (patient.Username.Equals(username) && password.Equals(patient.Password))
                 {
                     return patient;
                 }
@@ -188,7 +158,7 @@ namespace HospitalManagementSystem
 
             foreach (var doctor in doctorList)
             {
-                if (doctor.Username.Equals(username) && doctor.Password.Equals(password))
+                if (doctor.Username.Equals(username) && password.Equals(doctor.Password))
                 {
                     return doctor;
                 }
@@ -197,49 +167,71 @@ namespace HospitalManagementSystem
             return null;
         }
 
-        private static List<Patient>? ReturnSavePatients()
+        public static List<Patient>? ReturnSavePatients()
         {
             List<Patient>? patientList = new List<Patient>();
 
             string relativePath = "../../../Data/Patients.xml";
 
-            using (FileStream stream = File.OpenWrite(relativePath))
+            using (FileStream stream = File.OpenRead(relativePath))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Patient>));
 
-                patientList = (List<Patient>)(serializer.Deserialize(stream))!;
+                try
+                {
+                    patientList = (List<Patient>)(serializer.Deserialize(stream))!;
+                }
+                catch (InvalidDataException)
+                {
+                    patientList = new List<Patient>();
+                }
             }
 
             return patientList;
         }
 
-        private static List<Doctor>? ReturnSaveDoctors()
+        public static List<Doctor>? ReturnSaveDoctors()
         {
             List<Doctor>? doctorList = new List<Doctor>();
 
-            string relativePath = "../../../Data/Patients.xml";
+            string relativePath = "../../../Data/Doctors.xml";
 
-            using (FileStream stream = File.OpenWrite(relativePath))
+            try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Doctor>));
-
-                doctorList = (List<Doctor>)(serializer.Deserialize(stream))!;
+                using (FileStream stream = File.Open(relativePath, FileMode.OpenOrCreate))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Doctor>));
+                    doctorList = (List<Doctor>)(serializer.Deserialize(stream))!;
+                }
+            }
+            catch (InvalidDataException)
+            {
+                doctorList = new List<Doctor>();
             }
 
             return doctorList;
         }
 
-        private static List<MedicalAppointment>? ReturnSaveAppointments()
+
+        public static List<MedicalAppointment>? ReturnSaveAppointments()
         {
             List<MedicalAppointment>? appointmentList = new List<MedicalAppointment>();
 
             string relativePath = "../../../Data/Appointments.xml";
 
-            using (FileStream stream = File.OpenWrite(relativePath))
+            using (FileStream stream = File.OpenRead(relativePath))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<MedicalAppointment>));
 
-                appointmentList = (List<MedicalAppointment>)(serializer.Deserialize(stream))!;
+                try
+                {
+                    appointmentList = (List<MedicalAppointment>)(serializer.Deserialize(stream))!;
+                }
+                catch (InvalidDataException)
+                {
+                    appointmentList = new List<MedicalAppointment>();
+                }
+                
             }
 
             return appointmentList;

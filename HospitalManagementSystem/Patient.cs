@@ -7,7 +7,6 @@ namespace HospitalManagementSystem
         private DateTime _DateOfBirth;
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<Prescription> PrescriptionList { get; }
 
         public DateTime DateOfBirth
         {
@@ -33,11 +32,6 @@ namespace HospitalManagementSystem
             }
             set
             {
-                if (!Hospital.IsUsernameUnique(value))
-                {
-                    throw new InvalidDataException("Username already exist!");
-                }
-
                 _Username = value;
             }
         }
@@ -50,13 +44,8 @@ namespace HospitalManagementSystem
             }
             set
             {
-                _Password = Hospital.HashPassword(value);
+                _Password = value;
             }
-        }
-
-        public void addPrescription(Prescription prescription)
-        {
-            PrescriptionList.Add(prescription);
         }
 
         public string GetInformationOfPerson()
@@ -64,6 +53,18 @@ namespace HospitalManagementSystem
             return "FirstName: " + FirstName + "\n" + "LastName: " + LastName + "\n" + "Date of birth: " + DateOfBirth;
         }
 
-        public Patient(){}
+        public Patient()
+        {
+
+        }
+
+        public Patient(DateTime dateOfBirth, string firstName, string lastName, string username, string password)
+        {
+            DateOfBirth = dateOfBirth;
+            FirstName = firstName;
+            LastName = lastName;
+            Username = username;
+            Password = password;
+        }
     }
 }
